@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Film supprimé</title>
+</head>
+<body>
+    <h1 th:text="'Voici la personne supprimé: '+${personnedel.givenname + ' ' + personnedel.surname}"></h1>
+
+    <br/>
+
+    <a href="#" th:href="@{'/person/list'}">Retour à la liste des personnes</a>
+</body>
+</html>

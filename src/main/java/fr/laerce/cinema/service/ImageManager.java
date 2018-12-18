@@ -17,12 +17,12 @@ public class ImageManager {
     String path;
 
     public int savePhoto(Person p, InputStream fi){
-        p.setImagePath(save("p", "personnes", fi));
+        p.setImagePath(save("p", "personnesS", fi));
         return 0;
     }
 
     public int savePoster(Film f, InputStream fi) {
-        f.setImagePath(save("f","affiches", fi));
+        f.setImagePath(save("f","affichesS", fi));
         return 0;
     }
 
@@ -46,19 +46,34 @@ public class ImageManager {
         String fileName = "";
         try(DirectoryStream<Path> dir = Files.newDirectoryStream(Paths.get(path+"/"+subPath),prefix+"*")){
 
+            System.out.println("dossier: "+ dir);
             for (Path file: dir
+//            for (val file: dir
             ) {
                 if(fileName.compareTo(file.getFileName().toString())<0){
                     fileName = file.getFileName().toString();
+//                    fileName = file.fileName.toString();
+                    System.out.println("nomfichier: "+ fileName);
                 }
             }
             String numStr = fileName.substring(1, fileName.indexOf(".jpg"));
-            System.out.println(numStr);
+//            var numStr = fileName.substring(1, fileName.indexOf(".jpg"));
+//            System.out.println(numStr);//###DEBUG
             Integer num = Integer.parseInt(numStr);
+
+//            num = Integer.parseInt(numStr);
             numStr = String.format("%04d",num+1);
-            System.out.println(numStr);
+//            System.out.println(numStr);//###DEBUG
             fileName = prefix+numStr+".jpg";
+
             String filePath = path+"/"+subPath+"/"+fileName;
+//            val filePath = path+"/"+subPath+"/"+fileName;
+            System.out.println("numfichierStr: "+ numStr);//###DEBUG
+            System.out.println("numfichier: "+ num);//###DEBUG
+            System.out.println("numfichierStr: "+ numStr);//###DEBUG
+            System.out.println("nomfichier: "+ fileName);//###DEBUG
+            System.out.println("pathfichier: "+ filePath);//###DEBUG
+
             Files.copy(fi, new File(filePath).toPath());
         }catch (IOException ioe){
             System.out.println("Erreur sur nom d'image : "+ioe.getMessage());

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Film supprimé</title>
+</head>
+<body>
+    <h1 th:text="'Voici le film supprimé: '+${filmdel.title}"></h1>
+
+    <br/>
+
+    <a href="#" th:href="@{'/film/list'}">Retour à la liste des films</a>
+</body>
+</html>

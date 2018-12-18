@@ -17,7 +17,7 @@ public class CinemaApplicationJpa2Table {
         SpringApplication.run(CinemaApplicationJpa2Table.class, args);
     }
 
-   @Bean
+   /*@Bean
 
     public CommandLineRunner runner(FilmDao dao){
         return new CommandLineRunner() {
@@ -30,10 +30,10 @@ public class CinemaApplicationJpa2Table {
                     System.out.println(film.getTitle()+ " réalisé par "+film.getRealisateur().getSurname());
                 }
                 Optional<Film> film = dao.findById(1L);//Permet de traiter les valeurs nulles (OPTIONNAL)
-                System.out.println(film.get().getTitle());
+//                System.out.println(film.get().getTitle());
             }
         };
-    }
+    }*/
 
 }
 

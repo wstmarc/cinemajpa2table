@@ -8,9 +8,13 @@ xmlns:th="http://www.thymeleaf.org">
 <body>
 <table>
     <tr th:each="person: ${persons}">
-        <td><span th:utext="${person.surname}"></span> <a href="#" th:href="@{'/person/detail/'+${person.id}}">detail</a> </td>
+        <td><span th:utext="${person.surname}"></span> <a href="#" th:href="@{'/person/detail/'+${person.id}}">detail</a> <a href="#" th:href="@{'/person/mod/'+${person.id}}">modifier</a> <a href="#" th:href="@{'/person/del/'+${person.id}}">supprimer</a></td>
     </tr>
 </table>
+
+<br/>
+
+<a href="#" th:href="@{'/person/add'}">Ajouter une personne</a>
 
 </body>
 </html>

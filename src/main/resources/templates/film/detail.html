@@ -1,12 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.tymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Détail du film</title>
 </head>
 <body>
-<h1>Détail</h1>
-<h2>Titre : <span th:text="${film.title}"></span></h2>
-<h2>Note : <span th:text="${film.rating}"></span></h2>
+<h1 th:object="${film}">Détail</h1>
+<p><h2>Titre : </h2><span th:text="${film.title}"></span>
+<h2>Description : </h2><span th:text="${film.summary}"></span>
+<h2>Note : </h2><span th:text="${film.rating}"></span>
+<h2>ImagePath : </h2><span th:text="${film.imagePath}"></span>
+<!-- TODO afficher une LISTE DE LIENS des RÉALISATEURS (parmis lesquels celui à choisir)(dont on renverra l'ID uniquement) -->
+<!--<h2>Réalisateur : </h2><span th:text="${film.realisateur.surname + ' ' + film.realisateur.givenname}"></span>-->
+</p>
+<br/>
+
+<img th:src="'film/affiche/'+${film.getImagePath()}"><!-- ><><><>< -->
+<img th:src="'/affiche/'+${film.getImagePath()}"><!-- ><><><>< -->
+
+<a href="#" th:href="@{'/film/list'}">Retour à la liste des films</a>
+
+<img th:src="'Users/CDI/Desktop/images/affichesS/'+${film.getImagePath()}"><!-- ><><><>< -->
+<img th:src="'C:/Users/CDI/Desktop/images/affichesS/'+${film.getImagePath()}"><!-- ><><><>< -->
+<img th:src="'images/affichesS/'+${film.getImagePath()}"><!-- ><><><>< -->
+
 </body>
 </html>

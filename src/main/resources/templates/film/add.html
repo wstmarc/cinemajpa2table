@@ -2,18 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formulaire modification film</title>
+    <title>Formulaire ajout film</title>
 </head>
 <body>
 
-<!-- FICHIER MULTIPART FILM -->
 <form action="#" th:action="@{/film/add}" th:object="${film}" enctype="multipart/form-data" method="post">
     <input type="hidden" th:field="*{id}"/>
-    <input type="hidden" th:field="*{imagePath}"/>
     <p>Titre : <input type="text" th:field="*{title}"/></p>
+    <p>Notation : <input type="text" th:field="*{rating}"/></p>
+    <p>Image path : <input type="text" th:field="*{imagePath}"/></p>
+    <p>Résumé : <input type="text" th:field="*{summary}"/></p>
+    <!--<p>Réalisateur : <input type="text" th:field="*{realisateur}"/></p>-->
 
     <p>Affiche : <input type="file" name="poster"/> <span th:text="*{imagePath}">Fichier photo</span></p>
-    <!--<p>Affiche : <input type="file" name="poster"/> <span th:text="*{imagePath}">Fichier photo</span></p>-->
 
     <input type="submit" value="Valider" />
 </form>

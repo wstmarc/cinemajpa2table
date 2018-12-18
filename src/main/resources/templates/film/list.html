@@ -2,14 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Titre des films</title>
 </head>
 <body>
 <table>
     <tr th:each="film: ${films}">
-        <td><span th:utext="${film.title}"></span> <a href="#" th:href="@{'/film/detail/'+${film.id}}">detail</a> </td>
+        <td><span th:utext="${film.title}"></span> <a href="#" th:href="@{'/film/detail/'+${film.id}}">detail</a> <a href="#" th:href="@{'/film/mod/'+${film.id}}">modifier</a> <a href="#" th:href="@{'/film/del/'+${film.id}}">supprimer</a></td>
     </tr>
 </table>
+
+<br/>
+
+<a href="#" th:href="@{'/film/add'}">Ajouter un film</a>
+
+
+<!-- JUNO PLAYER -->
+<!--<iframe frameborder="no" height="305" src="https://www.junodownload.com/player-embed/609ffbf2e654e245c63073192d238f8e/?pl=true&pn=true&jd=true" scrolling="no" width="100%"></iframe>-->
 
 </body>
 </html>
