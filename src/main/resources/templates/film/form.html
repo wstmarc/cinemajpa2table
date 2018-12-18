@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="#" th:action="@{/film/add}" th:object="${film}" enctype="multipart/form-data" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{getImagePath}"/>
+    <p>Titre : <input type="text" th:field="*{title}"/></p>
+
+
+    <p>Affiche : <input type="file" name="photo"/> <span th:text="*{getImagePath}">Fichier photo</span></p>
+
+    <input type="submit" value="Valider" />
+</form>
+
+</body>
+</html>
