@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--<title>Accueil</title>-->
+    <div th:replace="fragments/header :: entetecss" />
+    <!-- # AIDES # -->
+    <!-- Préférer la balise th:block dans la partie head d'une page html -->
+    <!--<th:block th:replace="fragments/header :: entetecss" />-->
+    <!--EXEMPLE PROF-->
+    <!--<div th:replace="fragments/header :: entetecss(title="Film)" />-->
+</head>
+<body>
+<div th:replace="fragments/header :: header0"/>
+<div th:replace="fragments/header :: header"/>
+<h1>Accueil</h1>
+
+<p><b>Vous voulez aficher la liste des :</b></p>
+
+<a href="#" th:href="@{'/person/list'}">Personnes</a><br/>
+<a href="#" th:href="@{'/film/list'}">Films</a>
+
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: scriptsjs"/>
+</body>
+</html>

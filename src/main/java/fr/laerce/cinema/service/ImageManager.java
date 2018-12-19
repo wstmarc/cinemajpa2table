@@ -66,7 +66,8 @@ public class ImageManager {
 //            System.out.println(numStr);//###DEBUG
             fileName = prefix+numStr+".jpg";
 
-            String filePath = path+"/"+subPath+"/"+fileName;
+//            String filePath = path+"/"+subPath+"/"+fileName;
+            String filePath = path+"\\"+subPath+"\\"+fileName;
 //            val filePath = path+"/"+subPath+"/"+fileName;
             System.out.println("numfichierStr: "+ numStr);//###DEBUG
             System.out.println("numfichier: "+ num);//###DEBUG

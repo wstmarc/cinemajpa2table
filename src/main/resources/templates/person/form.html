@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Formulaire modification personne</title>
+    <!--<title>Formulaire modification personne</title>-->
+    <div th:replace="fragments/header :: entetecss" />
 </head>
 <body>
+<div th:replace="fragments/header :: header0"/>
+<div th:replace="fragments/header :: header"/>
 
 <!-- FICHIER MULTIPART PERSON -->
 <form action="#" th:action="@{/person/add}" th:object="${person}" enctype="multipart/form-data" method="post">
@@ -18,5 +20,7 @@
 
     <input type="submit" value="Valider" />
 </form>
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: scriptsjs"/>
 </body>
 </html>

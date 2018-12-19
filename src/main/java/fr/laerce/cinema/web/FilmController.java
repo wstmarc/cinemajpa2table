@@ -3,8 +3,13 @@ package fr.laerce.cinema.web;
 import fr.laerce.cinema.dao.FilmDao;
 import fr.laerce.cinema.model.Film;
 import fr.laerce.cinema.service.ImageManager;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,19 +37,24 @@ public class FilmController {
     public String list(Model model){
         Iterable<Film> films = filmDao.findAll();
         model.addAttribute("films", films);
+        model.addAttribute("titrepage", "Liste des films");//de la page
 //        System.out.println(films);
         return "film/list";
     }
 
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable("id")long id, Model model){
-        model.addAttribute("film", filmDao.findById(id).get());
+        Film film = filmDao.findById(id).get();
+//        Film film = filmDao.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Request"));
+        model.addAttribute("film", film);
+        model.addAttribute("titrepage", "Film: " + film.getTitle());//de la page
         return "film/detail";
     }
 
     @GetMapping("/mod/{id}")
     public String mod(@PathVariable("id")long id, Model model){
         model.addAttribute("film", filmDao.findById(id).get());
+        model.addAttribute("titrepage", "Modifier un film");//de la page
         return "film/form";
     }
 
@@ -59,10 +69,13 @@ public class FilmController {
         System.out.println("films : " + filmDao.findAll());//###DEBUG
         System.out.println();//###DEBUG
         System.out.println();//###DEBUG
+        model.addAttribute("titrepage", "Ajouter un film");//de la page
+
         return "film/add";
     }
 
     @PostMapping("/add")
+//    public String submit(@RequestParam("poster")MultipartFile file, @ModelAttribute Film film){
     public String submit(@RequestParam("poster")MultipartFile file, @ModelAttribute Film film){
         if(file.getContentType().equalsIgnoreCase("image/jpeg")){
             try {
@@ -73,7 +86,6 @@ public class FilmController {
         }
 // TODO gérer le cas où on n'entre pas correctement les données du film à ajouter
         filmDao.save(film);
-
         return "redirect:/film/list";
     }
 
@@ -81,12 +93,13 @@ public class FilmController {
     public String remove(@PathVariable("id")long id, Model model){
         model.addAttribute("filmdel", filmDao.findById(id).get());
         filmDao.deleteById(id);
+        model.addAttribute("titrepage", "Supprimer un film");//de la page
         return "film/deleted";
     }
 
 /*    @Value("${cinema.img.path}")
     String path;*/
-    @GetMapping("/affiche/{id}")
+/*    @GetMapping("/affiche/{id}")
     public void affiche (HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String id) throws IOException {
 
 //merci patrick
@@ -128,6 +141,27 @@ public class FilmController {
         }
         out.close();
         in.close();
+    }*/
+
+    @Value( "${url1}" )
+    private String url1;
+    //deuxieme methode pour affichezr  image
+    @GetMapping("/affiche/{id}")
+    public ResponseEntity<byte[]> getImageAsResponseEntity (HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String id) {
+        try {
+            HttpHeaders headers = new HttpHeaders ();
+            String filename=url1+id;
+            File i = new File (filename);
+            FileInputStream in = new FileInputStream(i);
+            byte[] media = IOUtils.toByteArray (in);
+            headers.setCacheControl (CacheControl.noCache ().getHeaderValue ());
+
+            ResponseEntity<byte[]> responseEntity = new ResponseEntity<> (media, headers, HttpStatus.OK);
+            return responseEntity;
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+        return null;
     }
 
 }

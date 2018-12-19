@@ -27,7 +27,7 @@ public class CinemaApplicationJpa2Table {
                 Iterable<Film> films = dao.findAll();
                 for (Film film: films
                      ) {
-                    System.out.println(film.getTitle()+ " réalisé par "+film.getRealisateur().getSurname());
+                    System.out.println(film.getTitle()+ " réalisé par "+film.getDirector().getSurname());
                 }
                 Optional<Film> film = dao.findById(1L);//Permet de traiter les valeurs nulles (OPTIONNAL)
 //                System.out.println(film.get().getTitle());

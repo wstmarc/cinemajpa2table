@@ -2,10 +2,12 @@
 <html lang="en"
 xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!--<title>Liste des personnes</title>-->
+    <div th:replace="fragments/header :: entetecss" />
 </head>
 <body>
+<div th:replace="fragments/header :: header0"/>
+<div th:replace="fragments/header :: header"/>
 <table>
     <tr th:each="person: ${persons}">
         <td><span th:utext="${person.surname}"></span> <a href="#" th:href="@{'/person/detail/'+${person.id}}">detail</a> <a href="#" th:href="@{'/person/mod/'+${person.id}}">modifier</a> <a href="#" th:href="@{'/person/del/'+${person.id}}">supprimer</a></td>
@@ -16,5 +18,7 @@ xmlns:th="http://www.thymeleaf.org">
 
 <a href="#" th:href="@{'/person/add'}">Ajouter une personne</a>
 
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: scriptsjs"/>
 </body>
 </html>

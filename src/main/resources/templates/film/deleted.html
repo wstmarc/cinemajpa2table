@@ -2,13 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Film supprimé</title>
+    <!--<title>Film supprimé</title>-->
+    <div th:replace="fragments/header :: entetecss" />
 </head>
 <body>
+<div th:replace="fragments/header :: header0"/>
+<div th:replace="fragments/header :: header"/>
+
     <h1 th:text="'Voici le film supprimé: '+${filmdel.title}"></h1>
 
     <br/>
 
     <a href="#" th:href="@{'/film/list'}">Retour à la liste des films</a>
+
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: scriptsjs"/>
 </body>
 </html>

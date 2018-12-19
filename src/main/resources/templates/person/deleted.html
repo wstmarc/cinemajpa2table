@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Film supprimé</title>
+    <div th:replace="fragments/header :: entetecss" />
 </head>
 <body>
+    <div th:replace="fragments/header :: header0"/>
+    <div th:replace="fragments/header :: header"/>
     <h1 th:text="'Voici la personne supprimé: '+${personnedel.givenname + ' ' + personnedel.surname}"></h1>
 
     <br/>
 
     <a href="#" th:href="@{'/person/list'}">Retour à la liste des personnes</a>
+    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/footer :: scriptsjs"/>
 </body>
 </html>

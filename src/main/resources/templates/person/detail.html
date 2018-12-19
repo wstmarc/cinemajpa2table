@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr"
-xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!--<title>Détail personne</title>-->
+    <div th:replace="fragments/header :: entetecss" />
 </head>
 <body>
+<div th:replace="fragments/header :: header0"/>
+<div th:replace="fragments/header :: header"/>
 <h1>Détails</h1>
-<h2><span th:text="${person.getGivenname()}">Paul</span> <span th:text="${person.getSurname()}"></span> </h2>
-<h2>Année de naissance : <span th:text="${person.getBirthYear()}">1890</span></h2>
+<h2><span th:text="${person.givenname}">Paul</span> <span th:text="${person.surname}"></span> </h2>
+<h2>Année de naissance : <span th:text="${person.birthYear}">1890</span></h2>
 <!-- TODO afficher une LISTE DE LIENS des FILMS dans lesquels la personne a joué -->
 </body>
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: scriptsjs"/>
 </html>

@@ -5,10 +5,15 @@ import fr.laerce.cinema.model.Person;
 import fr.laerce.cinema.service.ImageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+
 
 @Controller
 @RequestMapping(value = "/person")
@@ -30,18 +37,22 @@ public class PersonController {
     @GetMapping("/list")
     public String list(Model model){
         model.addAttribute("persons", personneDao.findAll());
+        model.addAttribute("titrepage", "Liste des personnes");//de la page
         return "person/list";
     }
 
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable("id") long id, Model model){
-        model.addAttribute("person", personneDao.findById(id).get());
+        Person personne = personneDao.findById(id).get();
+        model.addAttribute("person", personne);
+        model.addAttribute("titrepage", "Personne: " + personne.getSurname() + " " + personne.getGivenname());//de la page
         return "person/detail";
     }
 
     @GetMapping("/mod/{id}")
     public String mod(@PathVariable("id")long id, Model model){
         model.addAttribute("person", personneDao.findById(id).get());
+        model.addAttribute("titrepage", "Modifier une personne");//de la page
         return "person/form";
     }
 
@@ -51,6 +62,7 @@ public class PersonController {
         Person personAge = new Person();
         personAge.setId(maxid);
         model.addAttribute("person", personAge);
+        model.addAttribute("titrepage", "Ajouter une personne");//de la page
         return "person/form";
     }
 
@@ -72,10 +84,11 @@ public class PersonController {
     public String remove(@PathVariable("id")long id, Model model){
         model.addAttribute("personnedel", personneDao.findById(id).get());
         personneDao.deleteById(id);
+        model.addAttribute("titrepage", "Supprimer une personne");//de la page
         return "person/deleted";
     }
 
-    @Value("${cinema.img.path}")
+/*    @Value("${cinema.img.path}")
     String path;
     @GetMapping("/affiche/{id}")
     public void affiche (HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String id) throws IOException {
@@ -117,5 +130,28 @@ public class PersonController {
         }
         out.close();
         in.close();
+    }*/
+
+
+    //on copie/colle la methode pour le portrait des acteur
+    @Value( "${url2}" )
+    private String url2;
+    //que l'on mappe sur image/id id etant le nom brut de l'image
+    @GetMapping("/image/{id}")
+    public ResponseEntity<byte[]> getImageAsResponseEntity2 (HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String id) {
+        try {
+            HttpHeaders headers = new HttpHeaders ();
+            String filename=url2+id;
+            File i = new File (filename);
+            FileInputStream in = new FileInputStream(i);
+            byte[] media = IOUtils.toByteArray (in);
+            headers.setCacheControl (CacheControl.noCache().getHeaderValue());
+
+            ResponseEntity<byte[]> responseEntity = new ResponseEntity<> (media, headers, HttpStatus.OK);
+            return responseEntity;
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+        return null;
     }
 }

@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Détail du film</title>
+    <!--<title>Détail du film</title>-->
+    <div th:replace="fragments/header :: entetecss" />
 </head>
 <body>
-<h1 th:object="${film}">Détail</h1>
-<p><h2>Titre : </h2><span th:text="${film.title}"></span>
-<h2>Description : </h2><span th:text="${film.summary}"></span>
-<h2>Note : </h2><span th:text="${film.rating}"></span>
-<h2>ImagePath : </h2><span th:text="${film.imagePath}"></span>
-<!-- TODO afficher une LISTE DE LIENS des RÉALISATEURS (parmis lesquels celui à choisir)(dont on renverra l'ID uniquement) -->
-<!--<h2>Réalisateur : </h2><span th:text="${film.realisateur.surname + ' ' + film.realisateur.givenname}"></span>-->
-</p>
-<br/>
+<div th:replace="fragments/header :: header0"/>
+<div th:replace="fragments/header :: header"/>
 
-<img th:src="'film/affiche/'+${film.getImagePath()}"><!-- ><><><>< -->
-<img th:src="'/affiche/'+${film.getImagePath()}"><!-- ><><><>< -->
+<div class="MUR">
+    <h1 class="centretext" th:object="${film}">Détail</h1>
+    <hr/>
+    <p><h2 class="centretext">Titre : </h2><p class="centretext" th:text="${film.title}"></p>
+    <hr/>
+    <h2 class="centretext">Description : </h2><p class="centretext" th:text="${film.summary}"></p>
+    <hr/>
+    <h2 class="centretext">Note : </h2><p class="centretext" th:text="${film.rating} + ' / 5'"></p>
+    <hr/>
+    <h2 class="centretext">ImagePath : </h2><p class="centretext" th:text="${film.imagePath}"></p>
+    <hr/>
+    <!-- TODO afficher une LISTE DE LIENS des RÉALISATEURS (parmis lesquels celui à choisir)(dont on renverra l'ID uniquement) -->
+    <!--<h2>Réalisateur : </h2><span th:text="${film.director.surname + ' ' + film.director.givenname}"></span>-->
+    <br/>
 
-<a href="#" th:href="@{'/film/list'}">Retour à la liste des films</a>
+    <img class="centre" th:src="'/film/affiche/'+${film.getImagePath()}"><!-- ><><><>< -->
+    <!--<img th:src="'/affiche/'+${film.getImagePath()}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
 
-<img th:src="'Users/CDI/Desktop/images/affichesS/'+${film.getImagePath()}"><!-- ><><><>< -->
-<img th:src="'C:/Users/CDI/Desktop/images/affichesS/'+${film.getImagePath()}"><!-- ><><><>< -->
-<img th:src="'images/affichesS/'+${film.getImagePath()}"><!-- ><><><>< -->
+    <hr/>
+    <p class="centretext"><a href="#" th:href="@{'/film/list'}">Retour à la liste des films</a></p>
+</div>
+<!--<img th:src="'Users/CDI/Desktop/images/affichesS/'+${film.getImagePath()}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
+<!--<img th:src="'C:/Users/CDI/Desktop/images/affichesS/'+${film.getImagePath()}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
+<!--<img th:src="'images/affichesS/'+${film.getImagePath()}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
+<!--<img th:src="'Users\CDI\Desktop\images\affichesS\f0008.jpg'">&lt;!&ndash; ><><><>< &ndash;&gt;-->
+<!--<img th:src="'Users/CDI/Desktop/images/affichesS/f0008.jpg'">&lt;!&ndash; ><><><>< &ndash;&gt;-->
 
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: scriptsjs"/>
 </body>
 </html>

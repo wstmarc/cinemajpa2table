@@ -2,7 +2,6 @@ package fr.laerce.cinema.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name="films")
@@ -12,7 +11,7 @@ public class Film {
     private BigDecimal rating;
     private String imagePath;
     private String summary;
-    private Person realisateur;
+    private Person director;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -66,12 +65,12 @@ public class Film {
 
     @ManyToOne
     @JoinColumn(name ="film_director")
-    public Person getRealisateur() {
-        return realisateur;
+    public Person getDirector() {
+        return director;
     }
 
-    public void setRealisateur(Person person) {
-        this.realisateur = person;
+    public void setDirector(Person person) {
+        this.director = person;
     }
 
 
@@ -101,5 +100,17 @@ public class Film {
         result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", rating=" + rating +
+                ", imagePath='" + imagePath + '\'' +
+                ", summary='" + summary + '\'' +
+                ", director=" + director +
+                '}';
     }
 }

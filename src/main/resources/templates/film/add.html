@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Formulaire ajout film</title>
+    <!--<title>Formulaire ajout film</title>-->
+    <div th:replace="fragments/header :: entetecss" />
 </head>
 <body>
+<div th:replace="fragments/header :: header0"/>
+<div th:replace="fragments/header :: header"/>
 
 <form action="#" th:action="@{/film/add}" th:object="${film}" enctype="multipart/form-data" method="post">
     <input type="hidden" th:field="*{id}"/>
@@ -12,12 +14,14 @@
     <p>Notation : <input type="text" th:field="*{rating}"/></p>
     <p>Image path : <input type="text" th:field="*{imagePath}"/></p>
     <p>Résumé : <input type="text" th:field="*{summary}"/></p>
-    <!--<p>Réalisateur : <input type="text" th:field="*{realisateur}"/></p>-->
+    <!--<p>Réalisateur : <input type="text" th:field="*{director}"/></p>-->
 
     <p>Affiche : <input type="file" name="poster"/> <span th:text="*{imagePath}">Fichier photo</span></p>
 
     <input type="submit" value="Valider" />
 </form>
 
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: scriptsjs"/>
 </body>
 </html>

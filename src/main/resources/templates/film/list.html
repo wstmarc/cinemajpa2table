@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Titre des films</title>
+    <!--<title>Titre des films</title>-->
+    <div th:replace="fragments/header :: entetecss" />
 </head>
 <body>
+<div th:replace="fragments/header :: header0"/>
+<div th:replace="fragments/header :: header"/>
+
 <table>
     <tr th:each="film: ${films}">
         <td><span th:utext="${film.title}"></span> <a href="#" th:href="@{'/film/detail/'+${film.id}}">detail</a> <a href="#" th:href="@{'/film/mod/'+${film.id}}">modifier</a> <a href="#" th:href="@{'/film/del/'+${film.id}}">supprimer</a></td>
@@ -19,5 +22,7 @@
 <!-- JUNO PLAYER -->
 <!--<iframe frameborder="no" height="305" src="https://www.junodownload.com/player-embed/609ffbf2e654e245c63073192d238f8e/?pl=true&pn=true&jd=true" scrolling="no" width="100%"></iframe>-->
 
+<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: scriptsjs"/>
 </body>
 </html>
