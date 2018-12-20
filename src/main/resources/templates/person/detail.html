@@ -7,10 +7,22 @@
 <body>
 <div th:replace="fragments/header :: header0"/>
 <div th:replace="fragments/header :: header"/>
-<h1>Détails</h1>
-<h2><span th:text="${person.givenname}">Paul</span> <span th:text="${person.surname}"></span> </h2>
-<h2>Année de naissance : <span th:text="${person.birthYear}">1890</span></h2>
+<div class="MUR">
+    <h1 class="centretext">Détails</h1>
+    <hr/>
+    <h2 class="centretext"><p class="centretext">Prénom Nom :</p><p class="centretext" th:text="${person.givenname} + ' ' + ${person.surname}">Paul Anka</p></h2>
+    <hr/>
+    <h2 class="centretext">Année de naissance : <p class="centretext" th:text="${person.birthYear}">1800</p></h2>
+    <hr/>
+    <!-- TODO DONE ajouter l'image de la personnalité -->
+    <img class="centre" th:src="'/person/photo/'+${person.getImagePath()}"><!-- ><><><>< -->
+    <hr/>
+    <br/>
+    <p class="centretext"><a href="#" th:href="@{'/person/list'}">Retour à la liste des personnes</a></p>
+</div>
 <!-- TODO afficher une LISTE DE LIENS des FILMS dans lesquels la personne a joué -->
+
+<!-- TODO optimiser le css -->
 </body>
 <div th:replace="fragments/footer :: footer"/>
 <div th:replace="fragments/footer :: scriptsjs"/>

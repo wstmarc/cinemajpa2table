@@ -58,10 +58,13 @@ public class PersonController {
 
     @GetMapping("/add")
     public String add(Model model){
-        int maxid = (int)personneDao.count() + 1; //pour générer l'id du film a ajouter on recupère le nombre de films dans le filmDao et on y ajoute 1.
+        int maxid = (int)personneDao.count() + 1; //pour générer l'id de la personne a ajouter on recupère le nombre de personnes dans le personneDao et on y ajoute 1.
         Person personAge = new Person();
         personAge.setId(maxid);
         model.addAttribute("person", personAge);
+/*        System.out.println("personneDao.count() = " + personneDao.count());//###DEBUG
+        System.out.println("personneDao.count() + 1 = " + maxid);//###DEBUG
+        System.out.println("personnes : " + personneDao.findAll());//###DEBUG*/
         model.addAttribute("titrepage", "Ajouter une personne");//de la page
         return "person/form";
     }
@@ -137,7 +140,7 @@ public class PersonController {
     @Value( "${url2}" )
     private String url2;
     //que l'on mappe sur image/id id etant le nom brut de l'image
-    @GetMapping("/image/{id}")
+    @GetMapping("/photo/{id}")
     public ResponseEntity<byte[]> getImageAsResponseEntity2 (HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String id) {
         try {
             HttpHeaders headers = new HttpHeaders ();

@@ -51,6 +51,10 @@ img.centre{
     display: block;
 }
 
+img.rien{
+    width: 0em;
+}
+
 .MUR{
     background-color: lightgrey;
     width: 80%;
@@ -60,6 +64,10 @@ img.centre{
 
 .centretext{
     text-align: center;
+}
+
+.alert{
+    color: red;
 }
 
 table{

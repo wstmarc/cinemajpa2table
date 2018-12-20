@@ -9,23 +9,71 @@
 <div th:replace="fragments/header :: header"/>
 
 <div class="MUR">
-    <h1 class="centretext" th:object="${film}">Détail</h1>
+    <!-- ERREUR -->    <!-- ERREUR -->    <!-- ERREUR -->
+    <th:block th:if="${film}">
+        <h1 class="centretext" th:object="${film}">Détail</h1>
+    </th:block>
+    <th:block th:unless="${film}">
+        <h1 class="centretext">Détail</h1>
+        <p class="centretext alert" th:text="'Aucun film ne correspond au numéro indiqué dans l\'url."></p>
+    </th:block>
     <hr/>
-    <p><h2 class="centretext">Titre : </h2><p class="centretext" th:text="${film.title}"></p>
-    <hr/>
-    <h2 class="centretext">Description : </h2><p class="centretext" th:text="${film.summary}"></p>
-    <hr/>
-    <h2 class="centretext">Note : </h2><p class="centretext" th:text="${film.rating} + ' / 5'"></p>
-    <hr/>
-    <h2 class="centretext">ImagePath : </h2><p class="centretext" th:text="${film.imagePath}"></p>
-    <hr/>
-    <!-- TODO afficher une LISTE DE LIENS des RÉALISATEURS (parmis lesquels celui à choisir)(dont on renverra l'ID uniquement) -->
-    <!--<h2>Réalisateur : </h2><span th:text="${film.director.surname + ' ' + film.director.givenname}"></span>-->
+    <!-- ERREUR -->    <!-- ERREUR -->    <!-- ERREUR -->
+
+    <!-- ### VERIF TITRE -->
+    <th:block th:if="*{film.title}">
+        <p><h2 class="centretext">Titre : </h2><p class="centretext" th:text="${film.title}"></p>
+    </th:block>
+    <th:block th:unless="${film.title}">
+        <p><h2 class="centretext">Titre : </h2><p class="centretext alert" th:text="'Aucun titre à ce film.'"></p>
+    </th:block>
+    <hr/><!-- FIN VERIF TITRE ### -->
+
+    <!-- ### VERIF RÉSUMÉ -->
+    <th:block th:if="${!film.summary.isEmpty()}">
+        <h2 class="centretext">Description : </h2><p class="centretext" th:text="${film.summary}"></p>
+    </th:block>
+    <th:block th:unless="${!film.summary.isEmpty()}">
+        <h2 class="centretext">Description : </h2><p class="centretext alert" th:text="'Aucun résumé à ce film.'"></p>
+    </th:block>
+    <hr/><!-- FIN VERIF RÉSUMÉ ### -->
+
+    <!-- ### VERIF NOTE -->
+    <th:block th:if="${film.rating}">
+        <h2 class="centretext">Note : </h2><p class="centretext" th:text="${film.rating} + ' / 5'"></p>
+    </th:block>
+    <th:block th:unless="${film.rating}">
+        <h2 class="centretext">Note : </h2><p class="centretext alert" th:text="'Aucune note à ce film.'"></p>
+    </th:block>
+    <hr/><!-- FIN VERIF NOTE ### -->
+
+    <!-- ### VERIF DIRECTEUR -->
+    <th:block th:if="${film.director}">
+        <!--<h2 class="centretext">Réalisateur : </h2><p class="centretext" th:text="'Realisateur trouve pour ce film'"></p>-->
+        <h2 class="centretext">Réalisateur : </h2><p class="centretext" th:text="${film.director.surname + ' ' + film.director.givenname}"></p>
+    </th:block>
+    <th:block th:unless="${film.director}">
+        <h2 class="centretext">Réalisateur : </h2><p class="centretext alert" th:text="'Aucun réalisateur mentionné pour ce film.'"></p>
+    </th:block>
+    <hr/><!-- FIN VERIF DIRECTEUR ### -->
+
+    <!-- ### VERIF IMAGE PATH -->
+    <th:block th:if="${!film.imagePath.isEmpty()}">
+        <h2 class="centretext">ImagePath : </h2><p class="centretext" th:text="${film.imagePath}"></p>
+        <hr/>
+        <!-- TODO présence de l'image non gérée -->
+        <img class="centre" th:src="'/film/poster/'+${film.imagePath}"><!-- ><><><>< -->
+        <!--<hr/><img class="centre" th:src="'/film/poster/'+${film.imagePath}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
+    </th:block>
+    <th:block th:unless="${!film.imagePath.isEmpty()}">
+        <h2 class="centretext">ImagePath : </h2><p class="centretext alert" th:text="'Pas de Path trouvé pour l\'image du film.'"></p>
+        <hr/>
+        <img class="centre rien" th:src="'/film/poster/'+${film.imagePath}"><!-- ><><><>< -->
+    </th:block>
+    <!-- FIN VERIF IMAGE PATH ### -->
+
+    <!-- TODO le cas de figure où, un film a un image-path de renseigné mais pas d'image, n'est pas pris en compte -->
     <br/>
-
-    <img class="centre" th:src="'/film/affiche/'+${film.getImagePath()}"><!-- ><><><>< -->
-    <!--<img th:src="'/affiche/'+${film.getImagePath()}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
-
     <hr/>
     <p class="centretext"><a href="#" th:href="@{'/film/list'}">Retour à la liste des films</a></p>
 </div>

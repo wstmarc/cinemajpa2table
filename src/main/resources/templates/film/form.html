@@ -10,6 +10,17 @@
 <div th:replace="fragments/header :: header"/>
 
 <!-- FICHIER MULTIPART FILM -->
+<div th:text="${message}">
+
+</div>
+<th:block th:text="${message}">
+
+</th:block>
+<!--<th:block th:if="${messageerreur}">
+    <p th:text="${messageerreur}"></p>
+</th:block>-->
+<!--<th:block th:unless="${messageerreur}">-->
+
 <form action="#" th:action="@{/film/add}" th:object="${film}" enctype="multipart/form-data" method="post">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{imagePath}"/>
@@ -18,8 +29,11 @@
     <p>Affiche : <input type="file" name="poster"/> <span th:text="*{imagePath}">Fichier photo</span></p>
     <!--<p>Affiche : <input type="file" name="poster"/> <span th:text="*{imagePath}">Fichier photo</span></p>-->
 
+    <!-- TODO afficher une LISTE DE LIENS des personnes (parmis lesquels LE REALISATEUR à choisir)(dont on renverra l'ID uniquement) -->
     <input type="submit" value="Valider" />
 </form>
+
+<!--</th:block>-->
 
 <div th:replace="fragments/footer :: footer"/>
 <div th:replace="fragments/footer :: scriptsjs"/>

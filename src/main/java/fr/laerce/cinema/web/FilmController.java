@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
 
 @Controller
 @RequestMapping("/film")
@@ -47,6 +45,7 @@ public class FilmController {
         Film film = filmDao.findById(id).get();
 //        Film film = filmDao.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Request"));
         model.addAttribute("film", film);
+        System.out.println("réalisateur film: " + film.getDirector());
         model.addAttribute("titrepage", "Film: " + film.getTitle());//de la page
         return "film/detail";
     }
@@ -64,19 +63,53 @@ public class FilmController {
         Film film = new Film();
         film.setId(maxid);
         model.addAttribute("film", film);
-        System.out.println("filmDao.count() = " + filmDao.count());//###DEBUG
+/*        System.out.println("filmDao.count() = " + filmDao.count());//###DEBUG
         System.out.println("filmDao.count() + 1 = " + maxid);//###DEBUG
         System.out.println("films : " + filmDao.findAll());//###DEBUG
         System.out.println();//###DEBUG
-        System.out.println();//###DEBUG
+        System.out.println();//###DEBUG*/
         model.addAttribute("titrepage", "Ajouter un film");//de la page
 
         return "film/add";
     }
 
+/* TODO gérer le cas où on n'entre pas correctement les données du film à ajouter
+ * On ne devrait pouvoir ajouter un film que si toutes ses informations ont été saisies
+ * C'est à dire:
+ * - son ID
+ * - son Titre
+ * - sa  Notation
+ * - son ImagePath
+ * - son Résumé
+ **/
+
     @PostMapping("/add")
 //    public String submit(@RequestParam("poster")MultipartFile file, @ModelAttribute Film film){
-    public String submit(@RequestParam("poster")MultipartFile file, @ModelAttribute Film film){
+    public String submit(@RequestParam("poster")MultipartFile file, @ModelAttribute Film film, Model model){
+
+        Film lefilm = film;
+        String messageerreur = "";
+        //TEST DE L'EXISTENCE ET DE LA COHÉRENCE DES CHAMPS DU FORMULAIRE
+        if(lefilm.getId() == 0){
+            messageerreur += "Aucun Id n'a été saisi pour le film.";
+        }
+        if(lefilm.getTitle() == null || lefilm.getTitle() == ""){
+            messageerreur += "\nAucun Titre n'a été saisi pour le film.";
+        }
+        if(lefilm.getRating() == null || lefilm.getRating().toString() == ""){
+            messageerreur += "\nAucune Note n'a été saisie pour le film.";
+        } else {
+            if(lefilm.getRating().intValue() > 5 || lefilm.getRating().intValue() < 0){
+                messageerreur += "\nLa note saisie est incorrecte.";
+            }
+        }
+        if(lefilm.getImagePath() == null || lefilm.getImagePath() == ""){
+            messageerreur += "\nAucun Path saisi pour l'image du film.";
+        }
+        if(lefilm.getSummary() == null || lefilm.getSummary() == ""){
+            messageerreur += "\nAucun Résumé saisi pour le film.";
+        }
+
         if(file.getContentType().equalsIgnoreCase("image/jpeg")){
             try {
                 imm.savePoster(film, file.getInputStream());
@@ -84,9 +117,14 @@ public class FilmController {
                 System.out.println("Erreur lecture : "+ioe.getMessage());
             }
         }
-// TODO gérer le cas où on n'entre pas correctement les données du film à ajouter
-        filmDao.save(film);
-        return "redirect:/film/list";
+        if (messageerreur.length()>0) {
+            model.addAttribute("message", messageerreur);
+            System.out.println("message: " + messageerreur);
+            return "redirect:/film/form";
+        } else {
+            filmDao.save(film);
+            return "redirect:/film/list";
+        }
     }
 
     @GetMapping("/del/{id}")
@@ -146,7 +184,7 @@ public class FilmController {
     @Value( "${url1}" )
     private String url1;
     //deuxieme methode pour affichezr  image
-    @GetMapping("/affiche/{id}")
+    @GetMapping("/poster/{id}")
     public ResponseEntity<byte[]> getImageAsResponseEntity (HttpServletRequest request, HttpServletResponse response, @PathVariable("id") String id) {
         try {
             HttpHeaders headers = new HttpHeaders ();
