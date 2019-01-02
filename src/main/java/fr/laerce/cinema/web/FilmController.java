@@ -63,11 +63,12 @@ public class FilmController {
         Film film = new Film();
         film.setId(maxid);
         model.addAttribute("film", film);
-/*        System.out.println("filmDao.count() = " + filmDao.count());//###DEBUG
+        System.out.println("filmDao.count() = " + filmDao.count());
+        System.out.println("filmDao.count() = " + filmDao.count());//###DEBUG
         System.out.println("filmDao.count() + 1 = " + maxid);//###DEBUG
         System.out.println("films : " + filmDao.findAll());//###DEBUG
         System.out.println();//###DEBUG
-        System.out.println();//###DEBUG*/
+        System.out.println();//###DEBUG
         model.addAttribute("titrepage", "Ajouter un film");//de la page
 
         return "film/add";
