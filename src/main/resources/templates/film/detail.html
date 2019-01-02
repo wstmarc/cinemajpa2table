@@ -57,11 +57,26 @@
     </th:block>
     <hr/><!-- FIN VERIF DIRECTEUR ### -->
 
+    <!-- TODO Ajouter la liste des roles/ acteurs pour le dit film -->
+    <h2 class="centretext">Roles : </h2><p class="centretext" th:each="role: ${film.roles}" th:utext="${role.actor.surname}+ ' ' + ${role.actor.givenname} +' <b><em>dans le rôle de</em></b> '+${role.name}"></p>
+    <hr/>
+
+    <!-- ### VERIF DATE SORTIE -->
+    <th:block th:if="${film.releaseDate}">
+        <h2 class="centretext">Date de sortie : </h2><p class="centretext" th:text="${film.releaseDate}"></p>
+    </th:block>
+    <th:block th:unless="${film.releaseDate}">
+        <h2 class="centretext">Date de sortie : </h2><p class="centretext alert" th:text="'Bordel ya pas de date de sortie'"></p>
+    </th:block>
+    <hr/>
+    <!-- FIN VERIF DATE SORTIE ### -->
+
     <!-- ### VERIF IMAGE PATH -->
     <th:block th:if="${!film.imagePath.isEmpty()}">
         <h2 class="centretext">ImagePath : </h2><p class="centretext" th:text="${film.imagePath}"></p>
         <hr/>
-        <!-- TODO présence de l'image non gérée -->
+
+        <!-- TODO le cas de figure où, un film a un image-path de renseigné mais pas d'image, n'est pas pris en compte -->
         <img class="centre" th:src="'/film/poster/'+${film.imagePath}"><!-- ><><><>< -->
         <!--<hr/><img class="centre" th:src="'/film/poster/'+${film.imagePath}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
     </th:block>
@@ -72,16 +87,11 @@
     </th:block>
     <!-- FIN VERIF IMAGE PATH ### -->
 
-    <!-- TODO le cas de figure où, un film a un image-path de renseigné mais pas d'image, n'est pas pris en compte -->
+
     <br/>
     <hr/>
     <p class="centretext"><a href="#" th:href="@{'/film/list'}">Retour à la liste des films</a></p>
 </div>
-<!--<img th:src="'Users/CDI/Desktop/images/affichesS/'+${film.getImagePath()}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
-<!--<img th:src="'C:/Users/CDI/Desktop/images/affichesS/'+${film.getImagePath()}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
-<!--<img th:src="'images/affichesS/'+${film.getImagePath()}">&lt;!&ndash; ><><><>< &ndash;&gt;-->
-<!--<img th:src="'Users\CDI\Desktop\images\affichesS\f0008.jpg'">&lt;!&ndash; ><><><>< &ndash;&gt;-->
-<!--<img th:src="'Users/CDI/Desktop/images/affichesS/f0008.jpg'">&lt;!&ndash; ><><><>< &ndash;&gt;-->
 
 <div th:replace="fragments/footer :: footer"/>
 <div th:replace="fragments/footer :: scriptsjs"/>

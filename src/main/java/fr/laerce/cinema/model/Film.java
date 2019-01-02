@@ -2,19 +2,50 @@ package fr.laerce.cinema.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name="films")
 public class Film {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private long id;
+    @Basic
+    @Column(name = "title", nullable = true, length = 50)
     private String title;
+    @Basic
+    @Column(name = "rating", nullable = true, precision = 1)
     private BigDecimal rating;
+    @Basic
+    @Column(name = "image_path", nullable = true, length = 120)
     private String imagePath;
+    @Basic
+    @Column(name = "summary", nullable = true, length = -1)
     private String summary;
+    @Basic
+    @Column(name="release_date", nullable = true)
+    private LocalDate releaseDate;
+    @ManyToOne
+    @JoinColumn(name ="film_director")
     private Person director;
 
-    @Id
-    @Column(name = "id", nullable = false)
+
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Play> roles;
+
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="film_genre", joinColumns = @JoinColumn(name="film_id"),
+    inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private Set<Genre> genres;
+
+
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Review> reviews;
+
+
     public long getId() {
         return id;
     }
@@ -23,8 +54,6 @@ public class Film {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "title", nullable = true, length = 50)
     public String getTitle() {
         return title;
     }
@@ -33,8 +62,6 @@ public class Film {
         this.title = title;
     }
 
-    @Basic
-    @Column(name = "rating", nullable = true, precision = 1)
     public BigDecimal getRating() {
         return rating;
     }
@@ -43,8 +70,6 @@ public class Film {
         this.rating = rating;
     }
 
-    @Basic
-    @Column(name = "image_path", nullable = true, length = 120)
     public String getImagePath() {
         return imagePath;
     }
@@ -53,8 +78,6 @@ public class Film {
         this.imagePath = imagePath;
     }
 
-    @Basic
-    @Column(name = "summary", nullable = true, length = -1)
     public String getSummary() {
         return summary;
     }
@@ -63,8 +86,15 @@ public class Film {
         this.summary = summary;
     }
 
-    @ManyToOne
-    @JoinColumn(name ="film_director")
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
     public Person getDirector() {
         return director;
     }
@@ -73,8 +103,29 @@ public class Film {
         this.director = person;
     }
 
+    public Set<Play> getRoles() {
+        return roles;
+    }
 
+    public void setRoles(Set<Play> roles) {
+        this.roles = roles;
+    }
 
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -100,17 +151,5 @@ public class Film {
         result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Film{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", rating=" + rating +
-                ", imagePath='" + imagePath + '\'' +
-                ", summary='" + summary + '\'' +
-                ", director=" + director +
-                '}';
     }
 }

@@ -1,22 +1,33 @@
 package fr.laerce.cinema.model;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "persons")
 public class Person {
-    private long id;
-    private String surname;
-    private String givenname;
-    private Integer birthYear;
-    private String imagePath;
-    private List<Film> directedFilms;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    private long id;
+    @Basic
+    @Column(name = "surname", nullable = false, length = 60)
+    private String surname;
+    @Basic
+    @Column(name = "givenname", nullable = true, length = 40)
+    private String givenname;
+    @Basic
+    @Column(name = "birthday", nullable = true)
+    private LocalDate birthday;
+    @Basic
+    @Column(name = "image_path", nullable = true, length = 80)
+    private String imagePath;
+    @OneToMany(mappedBy = "director")
+    private Set<Film> directedFilms;
+    @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Play> roles;
+
     public long getId() {
         return id;
     }
@@ -25,8 +36,6 @@ public class Person {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "surname", nullable = false, length = 60)
     public String getSurname() {
         return surname;
     }
@@ -35,8 +44,6 @@ public class Person {
         this.surname = surname;
     }
 
-    @Basic
-    @Column(name = "givenname", nullable = true, length = 40)
     public String getGivenname() {
         return givenname;
     }
@@ -45,18 +52,14 @@ public class Person {
         this.givenname = givenname;
     }
 
-    @Basic
-    @Column(name = "birth_year", nullable = true)
-    public Integer getBirthYear() {
-        return birthYear;
+   public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public void setBirthYear(Integer birthYear) {
-        this.birthYear = birthYear;
+    public void setBirthday(LocalDate birthYear) {
+        this.birthday = birthYear;
     }
 
-    @Basic
-    @Column(name = "image_path", nullable = true, length = 80)
     public String getImagePath() {
         return imagePath;
     }
@@ -65,23 +68,15 @@ public class Person {
         this.imagePath = imagePath;
     }
 
-    @OneToMany(mappedBy = "director")
-    public List<Film> getDirectedFilms() {
+    public Set<Film> getDirectedFilms() {
         return directedFilms;
     }
 
-    public void setDirectedFilms(List<Film> films) {
+    public void setDirectedFilms(Set<Film> films) {
         this.directedFilms = films;
     }
 
-    public void addDirectedFilm(Film film) {
-        if (!directedFilms.contains(film)) {
-            directedFilms.add(film);
-            film.setDirector(this);
-        }
-    }
-
-/*    @Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -97,26 +92,7 @@ public class Person {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         return result;
-    }*/
-
-/*AUTO-GENERATED EQUALS + HASHCODE*/
-/*    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Person)) return false;
-        Person person = (Person) o;
-        return getId() == person.getId() &&
-                Objects.equals(getSurname(), person.getSurname()) &&
-                Objects.equals(getGivenname(), person.getGivenname()) &&
-                Objects.equals(getBirthYear(), person.getBirthYear()) &&
-                Objects.equals(getImagePath(), person.getImagePath()) &&
-                Objects.equals(getDirectedFilms(), person.getDirectedFilms());
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getSurname(), getGivenname(), getBirthYear(), getImagePath(), getDirectedFilms());
-    }*/
 
     @Override
     public String toString() {
@@ -124,7 +100,7 @@ public class Person {
                 "id=" + id +
                 ", nom='" + surname + '\'' +
                 ", prenom='" + givenname + '\'' +
-                ", naissance=" + birthYear +
+                ", naissance=" + birthday +
                 ", photoPath='" + imagePath + '\'' +
                 '}';
     }

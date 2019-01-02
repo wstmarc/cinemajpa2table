@@ -12,7 +12,8 @@
     <hr/>
     <h2 class="centretext"><p class="centretext">Prénom Nom :</p><p class="centretext" th:text="${person.givenname} + ' ' + ${person.surname}">Paul Anka</p></h2>
     <hr/>
-    <h2 class="centretext">Année de naissance : <p class="centretext" th:text="${person.birthYear}">1800</p></h2>
+    <!--<h2 class="centretext">Année de naissance : <p class="centretext" th:text="${person.birthYear}">1800</p></h2>-->
+    <h2 class="centretext">Année de naissance : <p class="centretext" th:text="${person.birthday}">1800</p></h2>
     <hr/>
     <!-- TODO DONE ajouter l'image de la personnalité -->
     <img class="centre" th:src="'/person/photo/'+${person.getImagePath()}"><!-- ><><><>< -->
